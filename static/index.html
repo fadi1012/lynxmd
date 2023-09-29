@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Stats</title>
+</head>
+<body>
+    <h1>Event Stats</h1>
+    <div id="eventStats">
+        <!-- Event stats will be displayed here -->
+    </div>
+    <div id="wordStats">
+        <!-- Word stats will be displayed here -->
+    </div>
+
+    <script>
+        function fetchEventStats() {
+            fetch('/events/CountByEventType')
+                .then(response => response.json())
+                .then(data => {
+                    const eventStatsElement = document.getElementById('eventStats');
+                    eventStatsElement.innerText = 'Event Stats: ' + JSON.stringify(data);
+                })
+                .catch(error => console.error('Error fetching event stats:', error));
+        }
+
+        function fetchWordStats() {
+            fetch('/events/CountWords')
+                .then(response => response.json())
+                .then(data => {
+                    const wordStatsElement = document.getElementById('wordStats');
+                    wordStatsElement.innerText = 'Word Stats: ' + JSON.stringify(data);
+                })
+                .catch(error => console.error('Error fetching word stats:', error));
+        }
+
+        function updateStats() {
+            fetchEventStats();
+            fetchWordStats();
+        }
+
+        // Fetch and update stats every 2 seconds
+        setInterval(updateStats, 2000);
+
+        // Initial fetch and update
+        updateStats();
+    </script>
+</body>
+</html>
